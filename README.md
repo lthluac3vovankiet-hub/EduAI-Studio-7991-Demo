@@ -9,7 +9,7 @@ rather than copy wholesale.
 
 ## Contents
 
-- `Main.dc.html` — the artboard (a Design Component: an `<x-dc>`
+- `index.html` — the artboard (a Design Component: an `<x-dc>`
   template + a small logic class). The values to replicate live in its
   inline `style="…"` attributes and the `<helmet><style>` block.
 - `support.js`, `vendor/react*.js` — the runtime that renders the
