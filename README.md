@@ -17,5 +17,5 @@ rather than copy wholesale.
 
 ## Viewing
 
-Serve the folder (e.g. `python3 -m http.server`) and open `Main.dc.html`;
+Serve the folder (e.g. `python3 -m http.server`) and open `index.html`;
 some browsers block the scripts over file://.
