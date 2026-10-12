@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>EduAI Studio 7991</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&amp;family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&amp;display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:'Be Vietnam Pro',system-ui,sans-serif;background:#F4F6FB;color:#0F172A;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid #1E3A8A;outline-offset:2px}
+.hdr :focus-visible{outline-color:#F59E0B}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;background:#F59E0B;color:#1E293B;font-size:12.5px;font-weight:700}
+.tab{display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 18px;background:none;border:0;border-bottom:3px solid transparent;color:#475569;font-size:14.5px;font-weight:500;transition:background .15s,color .15s}
+.tab:hover{background:#EEF2FF;color:#1E3A8A}
+.tab[aria-selected=true]{color:#1E3A8A;border-bottom-color:#047857;font-weight:700}
+
+.card{background:#fff;border:1px solid #D8DEEA;border-radius:12px}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label{font-size:13px;font-weight:600;color:#1E293B}
+.inp{width:100%;min-height:44px;padding:10px 12px;border:1px solid #94A3B8;border-radius:8px;background:#fff;font-size:14px}
+.inp:focus{border-color:#1E3A8A}
+textarea.inp{min-height:132px;resize:vertical;line-height:1.5}
+.inp.bad{border-color:#B91C1C}
+.err{font-size:12.5px;color:#B91C1C;font-weight:500}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border-radius:8px;border:1px solid transparent;font-weight:600;font-size:14px;transition:background .15s,transform .1s}
+.btn:active{transform:translateY(1px)}
+.btn-gold{background:#F59E0B;color:#1E293B}
+.btn-gold:hover{background:#FBBF24}
+.btn-em{background:#047857;color:#fff}
+.btn-em:hover{background:#065F46}
+.btn-line{background:#fff;border-color:#CBD5E1;color:#1E3A8A}
+.btn-line:hover{background:#EEF2FF}
+.btn-line[aria-pressed=true]{background:#1E3A8A;color:#fff;border-color:#1E3A8A}
+.btn[disabled]{opacity:.65;cursor:progress}
+.link{background:none;border:0;padding:6px 0;color:#1E3A8A;font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px;text-align:left}
+
+.paper{background:#fff;border:1px solid #D8DEEA;border-radius:10px;padding:36px 40px;font-size:14.5px;line-height:1.65;animation:rise .35s ease both}
+.paper.editing{outline:2px dashed #047857;outline-offset:4px}
+.doc-title{font-family:'Newsreader',Georgia,serif;font-size:28px;line-height:1.2;color:#1E3A8A;margin:0 0 6px;text-align:center;letter-spacing:.03em;font-weight:700}
+.doc-sub{text-align:center;color:#475569;margin:0 0 4px}
+.meta{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px;margin:14px 0 6px;font-weight:600;color:#1E293B}
+.paper h3{font-family:'Newsreader',Georgia,serif;font-size:19px;color:#1E3A8A;margin:28px 0 10px;padding-bottom:6px;border-bottom:2px solid #F59E0B;letter-spacing:.02em}
+.paper h5{margin:14px 0 4px;font-size:14.5px;color:#047857}
+.paper ul,.paper ol{margin:6px 0;padding-left:22px}
+.paper li{margin:3px 0}
+.act{border:1px solid #D8DEEA;border-radius:10px;margin:14px 0;overflow:hidden}
+.act-head{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 18px;background:#EEF2FF}
+.act-no{width:32px;height:32px;border-radius:50%;background:#1E3A8A;color:#fff;display:grid;place-items:center;font-weight:700;flex:none}
+.act-head h4{margin:0;flex:1 1 200px;font-size:15.5px;color:#1E3A8A}
+.time{background:#FEF3C7;color:#78350F;border-radius:999px;padding:3px 10px;font-size:12.5px;font-weight:600}
+.row{display:grid;grid-template-columns:130px minmax(0,1fr);gap:12px;padding:12px 18px;border-top:1px solid #E2E8F0}
+.lab{font-weight:700;color:#047857}
+.steps{margin:0;padding-left:20px}
+.demo-note{margin-top:26px;padding:10px 14px;background:#F1F5F9;border-radius:8px;font-size:12.5px;color:#475569}
+
+.slides{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:18px;animation:rise .35s ease both}
+.slide{aspect-ratio:16/9;background:#1E3A8A;color:#fff;border-radius:10px 10px 0 0;padding:20px 22px;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden}
+.slide h4{font-family:'Newsreader',Georgia,serif;font-size:21px;line-height:1.2;margin:0}
+.slide ul{margin:0;padding-left:18px;font-size:13px;line-height:1.5;color:#E0E7FF}
+.slide-tag{align-self:flex-start;background:#F59E0B;color:#1E293B;font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px}
+.slide-no{position:absolute;right:14px;bottom:10px;font-size:12px;color:#C7D2FE}
+.notes{margin:0;padding:10px 14px;background:#fff;border:1px solid #D8DEEA;border-top:0;border-radius:0 0 10px 10px;font-size:12.5px;color:#334155;line-height:1.5}
+
+.lv{display:inline-block;padding:2px 9px;border-radius:6px;font-size:12px;font-weight:700;white-space:nowrap}
+.lv-nb{background:#E2E8F0;color:#1E293B}
+.lv-th{background:#DBEAFE;color:#1E3A8A}
+.lv-vd{background:#D1FAE5;color:#064E3B}
+.lv-vdc{background:#F59E0B;color:#1E293B}
+.tbl-wrap{overflow-x:auto}
+table.mx{width:100%;border-collapse:collapse;font-size:13.5px;min-width:480px}
+table.mx th,table.mx td{border:1px solid #CBD5E1;padding:8px 10px;text-align:left}
+table.mx th{background:#EEF2FF;color:#1E3A8A}
+.q{margin:14px 0;padding:14px 16px;border:1px solid #E2E8F0;border-radius:10px}
+.q-head{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-bottom:6px}
+.q-no{font-weight:700;color:#1E3A8A}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:8px;margin-top:8px}
+.opt{display:flex;gap:10px;padding:8px 12px;border:1px solid #E2E8F0;border-radius:8px}
+.opt.ok{background:#ECFDF5;border-color:#047857;font-weight:600}
+.key{margin-top:8px;padding:8px 12px;background:#ECFDF5;border-radius:8px;color:#064E3B;font-size:13.5px}
+
+.shim{height:12px;border-radius:6px;background:#E2E8F0;animation:pulse 1.2s ease-in-out infinite}
+.spin{animation:spin 1s linear infinite}
+.step-line{display:flex;align-items:center;gap:10px;padding:8px 0;font-size:14px;color:#475569}
+.step-line.on{color:#1E3A8A;font-weight:600}
+.step-line.done{color:#047857}
+
+.msg{max-width:92%;padding:10px 14px;font-size:13.5px;line-height:1.55;animation:rise .25s ease both}
+.msg-u{align-self:flex-end;background:#1E3A8A;color:#fff;border-radius:14px 14px 4px 14px}
+.msg-a{align-self:flex-start;background:#F1F5F9;color:#0F172A;border-radius:14px 14px 14px 4px}
+.chip{min-height:36px;padding:0 12px;border-radius:999px;border:1px solid #CBD5E1;background:#fff;color:#1E3A8A;font-size:12.5px;font-weight:600}
+.chip:hover{background:#EEF2FF}
+.dots span{display:inline-block;width:6px;height:6px;margin-right:4px;border-radius:50%;background:#64748B;animation:blink 1s infinite}
+.dots span:nth-child(2){animation-delay:.15s}
+.dots span:nth-child(3){animation-delay:.3s}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);max-width:min(520px,calc(100vw - 32px));background:#1E3A8A;color:#fff;padding:12px 18px;border-radius:10px;font-size:13.5px;box-shadow:0 8px 24px rgba(15,23,42,.25);z-index:50;animation:rise .25s ease both}
+.toast.off{display:none}
+
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+@media (max-width:640px){.paper{padding:22px 16px}.row{grid-template-columns:1fr;gap:4px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.noprint{display:none!important}.scroll{max-height:none!important;overflow:visible!important}.paper{border:0;padding:0}}
+</style>
+</helmet>
+
+<div style="min-height:1060px;background:#F4F6FB">
+
+  <!-- Header -->
+  <header class="hdr noprint" style="background:#1E3A8A;color:#fff">
+    <div style="max-width:1560px;margin:0 auto;padding:14px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px">
+      <span style="width:44px;height:44px;border-radius:10px;background:#F59E0B;color:#1E293B;display:grid;place-items:center;flex:none">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+      </span>
+      <div>
+        <div style="font-family:'Newsreader',Georgia,serif;font-size:24px;font-weight:700;line-height:1.1">EduAI Studio 7991</div>
+        <div style="font-size:12.5px;color:#C7D2FE">Trợ lý AI soạn bài cho giáo viên</div>
+      </div>
+      <span class="badge">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg>
+        Chuẩn Công văn 7991
+      </span>
+      <span style="flex:1 1 auto"></span>
+      <span style="font-size:13px;color:#C7D2FE">Bản demo · dùng dữ liệu mẫu</span>
+    </div>
+  </header>
+
+  <!-- Tabs -->
+  <nav class="noprint" style="background:#fff;border-bottom:1px solid #D8DEEA" aria-label="Chức năng chính">
+    <div role="tablist" style="max-width:1560px;margin:0 auto;padding:0 16px;display:flex;flex-wrap:wrap">
+      <button class="tab" role="tab" aria-selected="{{isLesson}}" onClick="{{goLesson}}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path><path d="M14 2v4a2 2 0 0 0 2 2h4"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
+        Soạn Kế hoạch bài dạy (Giáo án)
+      </button>
+      <button class="tab" role="tab" aria-selected="{{isSlides}}" onClick="{{goSlides}}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h20"></path><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"></path><path d="m7 21 5-5 5 5"></path></svg>
+        Tạo Slide giảng dạy (PowerPoint/Outline)
+      </button>
+      <button class="tab" role="tab" aria-selected="{{isQuiz}}" onClick="{{goQuiz}}">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="8" height="4" x="8" y="2" rx="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="m9 14 2 2 4-4"></path></svg>
+        Tạo Bài kiểm tra &amp; Đáp án
+      </button>
+    </div>
+  </nav>
+
+  <!-- Workspace -->
+  <div style="max-width:1560px;margin:0 auto;padding:20px 24px 40px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+
+    <!-- Sidebar -->
+    <aside class="card noprint" style="flex:1 1 300px;max-width:340px;padding:20px;display:flex;flex-direction:column;gap:16px" aria-label="Cấu hình đầu vào">
+      <div>
+        <h2 style="margin:0;font-family:'Newsreader',Georgia,serif;font-size:21px;color:#1E3A8A">Cấu hình đầu vào</h2>
+        <p style="margin:4px 0 0;font-size:13px;color:#475569">{{sideHint}}</p>
+      </div>
+      <form onSubmit="{{onSubmit}}" style="display:flex;flex-direction:column;gap:14px">
+        <div class="fld">
+          <label for="f-title">Tên bài học</label>
+          <input id="f-title" class="inp {{titleBad}}" type="text" placeholder="VD: Phép cộng và phép trừ phân số" value="{{form.title}}" onChange="{{onTitle}}" aria-describedby="f-title-err">
+          <span id="f-title-err" class="err" style="display:{{errDisplay}}">Nhập tên bài học, hoặc bấm “Tạo bài mẫu”.</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+          <div class="fld">
+            <label for="f-subject">Môn học</label>
+            <select id="f-subject" class="inp" value="{{form.subject}}" onChange="{{onSubject}}">
+              <sc-for list="{{subjects}}" as="o" hint-placeholder-count="4"><option value="{{o}}">{{o}}</option></sc-for>
+            </select>
+          </div>
+          <div class="fld">
+            <label for="f-grade">Lớp / Khối</label>
+            <select id="f-grade" class="inp" value="{{form.grade}}" onChange="{{onGrade}}">
+              <sc-for list="{{grades}}" as="g" hint-placeholder-count="4"><option value="{{g}}">Lớp {{g}}</option></sc-for>
+            </select>
+          </div>
+        </div>
+        <div class="fld">
+          <label for="f-periods">Thời lượng (số tiết)</label>
+          <input id="f-periods" class="inp" type="number" min="1" max="10" value="{{form.periods}}" onChange="{{onPeriods}}">
+        </div>
+        <div class="fld">
+          <label for="f-ycc">Yêu cầu cần đạt (YCCĐ) — CT GDPT 2018</label>
+          <textarea id="f-ycc" class="inp" placeholder="Mỗi dòng một yêu cầu cần đạt…" onChange="{{onYcc}}">{{form.ycc}}</textarea>
+          <button type="button" class="link" onClick="{{suggestYcc}}">Gợi ý YCCĐ theo chương trình</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <button type="submit" class="btn btn-gold" disabled="{{isLoading}}">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"></path></svg>
+            Khởi tạo bằng AI
+          </button>
+          <button type="button" class="btn btn-line" onClick="{{useSample}}" disabled="{{isLoading}}">Tạo bài mẫu (xem ngay)</button>
+        </div>
+      </form>
+    </aside>
+
+    <!-- Main preview -->
+    <main class="card" style="flex:999 1 520px;min-width:0;display:flex;flex-direction:column;overflow:hidden">
+      <div class="noprint" style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid #D8DEEA;background:#fff">
+        <div style="flex:1 1 200px;min-width:0">
+          <div style="font-weight:700;color:#1E3A8A;font-size:15px">Xem trước · {{tabTitle}}</div>
+          <div style="font-size:12.5px;color:#047857;font-weight:600">{{statusText}}</div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <button class="btn btn-line" aria-pressed="{{editing}}" onClick="{{toggleEdit}}" disabled="{{notReady}}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path></svg>
+            {{editLabel}}
+          </button>
+          <button class="btn btn-line" onClick="{{doPdf}}" disabled="{{notReady}}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect width="12" height="8" x="6" y="14"></rect></svg>
+            Xuất PDF
+          </button>
+          <button class="btn btn-line" onClick="{{doCopy}}" disabled="{{notReady}}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>
+            Sao chép Markdown
+          </button>
+          <button class="btn btn-em" onClick="{{doDownload}}" disabled="{{notReady}}">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path><path d="M12 15V3"></path></svg>
+            {{downloadLabel}}
+          </button>
+        </div>
+      </div>
+
+      <div class="scroll" style="padding:20px;background:#F4F6FB;max-height:760px;overflow:auto;min-height:520px">
+
+        <!-- Empty -->
+        <sc-if value="{{isEmpty}}" hint-placeholder-val="{{ false }}">
+          <div style="min-height:460px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;animation:rise .35s ease both">
+            <svg width="120" height="96" viewBox="0 0 120 96" fill="none" aria-hidden="true">
+              <rect x="22" y="10" width="76" height="76" rx="8" fill="#fff" stroke="#1E3A8A" stroke-width="2.5"></rect>
+              <rect x="34" y="24" width="40" height="5" rx="2.5" fill="#1E3A8A"></rect>
+              <rect x="34" y="38" width="52" height="4" rx="2" fill="#CBD5E1"></rect>
+              <rect x="34" y="48" width="46" height="4" rx="2" fill="#CBD5E1"></rect>
+              <rect x="34" y="58" width="30" height="4" rx="2" fill="#CBD5E1"></rect>
+              <circle cx="92" cy="72" r="16" fill="#F59E0B"></circle>
+              <path d="m85 72 5 5 9-10" stroke="#1E293B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <h3 style="margin:0;font-family:'Newsreader',Georgia,serif;font-size:24px;color:#1E3A8A">Chưa có nội dung để xem trước</h3>
+            <p style="margin:0;max-width:420px;color:#475569;font-size:14.5px;line-height:1.6">Điền biểu mẫu bên trái rồi bấm “Khởi tạo bằng AI”, hoặc xem ngay một bài mẫu hoàn chỉnh theo cấu trúc 4 hoạt động.</p>
+            <button class="btn btn-em" onClick="{{useSample}}">Tạo bài mẫu</button>
+          </div>
+        </sc-if>
+
+        <!-- Loading -->
+        <sc-if value="{{isLoading}}" hint-placeholder-val="{{ false }}">
+          <div class="card" style="padding:28px;max-width:560px;margin:24px auto;animation:rise .3s ease both" role="status" aria-live="polite">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+              <svg class="spin" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#047857" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.2-8.56"></path></svg>
+              <strong style="font-size:17px;color:#1E3A8A">AI đang soạn {{tabNoun}}…</strong>
+            </div>
+            <sc-for list="{{loadSteps}}" as="st" hint-placeholder-count="4">
+              <div class="step-line {{st.cls}}">
+                <sc-if value="{{st.done}}" hint-placeholder-val="{{ false }}">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>
+                </sc-if>
+                <sc-if value="{{st.todo}}" hint-placeholder-val="{{ true }}">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"></circle></svg>
+                </sc-if>
+                <sc-if value="{{st.active}}" hint-placeholder-val="{{ false }}">
+                  <svg class="spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.2-8.56"></path></svg>
+                </sc-if>
+                <span>{{st.label}}</span>
+              </div>
+            </sc-for>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+              <div class="shim" style="width:92%"></div>
+              <div class="shim" style="width:78%"></div>
+              <div class="shim" style="width:64%"></div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- Ready -->
+        <sc-if value="{{isReady}}" hint-placeholder-val="{{ true }}">
+          <div id="paper-root">
+
+            <!-- Lesson plan -->
+            <sc-if value="{{isLesson}}" hint-placeholder-val="{{ true }}">
+              <article id="paper" class="paper {{paperCls}}" contenteditable="{{editable}}">
+                <p class="doc-sub">Phụ lục · Kế hoạch bài dạy (Giáo án)</p>
+                <h2 class="doc-title">KẾ HOẠCH BÀI DẠY</h2>
+                <p class="doc-sub" style="font-weight:700;color:#0F172A;font-size:17px">{{doc.title}}</p>
+                <div class="meta"><span>{{metaSubject}}</span><span>{{metaPeriods}}</span></div>
+
+                <h3>I. MỤC TIÊU</h3>
+                <h5>1. Yêu cầu cần đạt</h5>
+                <ul><sc-for list="{{yccList}}" as="y" hint-placeholder-count="2"><li>{{y}}</li></sc-for></ul>
+                <h5>2. Năng lực</h5>
+                <ul>
+                  <li><strong>Năng lực chung:</strong> tự chủ và tự học (tự hoàn thành phiếu học tập); giao tiếp và hợp tác (thảo luận nhóm 4 học sinh).</li>
+                  <li><strong>Năng lực đặc thù:</strong> tư duy và lập luận toán học; giải quyết vấn đề toán học; mô hình hóa toán học.</li>
+                </ul>
+                <h5>3. Phẩm chất</h5>
+                <ul><li>Chăm chỉ, trung thực khi làm bài; có trách nhiệm với nhiệm vụ nhóm.</li></ul>
+
+                <h3>II. THIẾT BỊ DẠY HỌC VÀ HỌC LIỆU</h3>
+                <ul>
+                  <li><strong>Giáo viên:</strong> máy chiếu, slide bài giảng, phiếu học tập số 1 và số 2, bộ thẻ phân số.</li>
+                  <li><strong>Học sinh:</strong> sách giáo khoa, vở ghi, bút màu, bảng nhóm.</li>
+                </ul>
+
+                <h3>III. TIẾN TRÌNH DẠY HỌC</h3>
+                <sc-for list="{{acts}}" as="a" hint-placeholder-count="2">
+                  <section class="act">
+                    <header class="act-head">
+                      <span class="act-no">{{a.no}}</span>
+                      <h4>{{a.heading}}</h4>
+                      <span class="time">{{a.timeText}}</span>
+                    </header>
+                    <div class="row"><div class="lab">a) Mục tiêu</div><div>{{a.goal}}</div></div>
+                    <div class="row"><div class="lab">b) Nội dung</div><div>{{a.content}}</div></div>
+                    <div class="row"><div class="lab">c) Sản phẩm</div><div>{{a.product}}</div></div>
+                    <div class="row">
+                      <div class="lab">d) Tổ chức thực hiện</div>
+                      <ol class="steps"><sc-for list="{{a.steps}}" as="s" hint-placeholder-count="4"><li><strong>{{s.k}}</strong> <span>{{s.t}}</span></li></sc-for></ol>
+                    </div>
+                  </section>
+                </sc-for>
+
+                <h3>IV. ĐÁNH GIÁ VÀ HƯỚNG DẪN VỀ NHÀ</h3>
+                <ul>
+                  <li><strong>Đánh giá:</strong> quan sát quá trình thảo luận, hỏi đáp nhanh, phiếu học tập và sản phẩm nhóm theo tiêu chí (đúng kết quả, trình bày rõ ràng, hợp tác).</li>
+                  <li><strong>Về nhà:</strong> hoàn thành phiếu học tập số 2; tìm thêm một tình huống đời sống cần cộng hoặc trừ phân số.</li>
+                </ul>
+                <div class="demo-note">Bản demo: phần tiến trình là bài mẫu Toán 6 để minh họa cấu trúc 4 hoạt động. Khi kết nối API, nội dung được sinh theo biểu mẫu của bạn.</div>
+              </article>
+            </sc-if>
+
+            <!-- Slides -->
+            <sc-if value="{{isSlides}}" hint-placeholder-val="{{ false }}">
+              <div id="paper" class="slides {{paperCls}}" contenteditable="{{editable}}">
+                <sc-for list="{{slides}}" as="sl" hint-placeholder-count="3">
+                  <div>
+                    <div class="slide">
+                      <span class="slide-tag">{{sl.tag}}</span>
+                      <h4>{{sl.title}}</h4>
+                      <ul><sc-for list="{{sl.bullets}}" as="b" hint-placeholder-count="3"><li>{{b}}</li></sc-for></ul>
+                      <span class="slide-no">{{sl.no}}</span>
+                    </div>
+                    <p class="notes"><strong>Ghi chú giáo viên:</strong> <span>{{sl.note}}</span></p>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <!-- Quiz -->
+            <sc-if value="{{isQuiz}}" hint-placeholder-val="{{ false }}">
+              <article id="paper" class="paper {{paperCls}}" contenteditable="{{editable}}">
+                <p class="doc-sub">Bài kiểm tra · Thời gian 45 phút</p>
+                <h2 class="doc-title">ĐỀ KIỂM TRA</h2>
+                <p class="doc-sub" style="font-weight:700;color:#0F172A;font-size:17px">{{doc.title}}</p>
+                <div class="meta"><span>{{metaSubject}}</span><span>Tổng điểm: 10,0</span></div>
+                <div style="display:flex;justify-content:center;margin:10px 0 0" class="noprint" contenteditable="false">
+                  <button class="btn btn-line" aria-pressed="{{showAnswers}}" onClick="{{toggleAnswers}}">{{answerLabel}}</button>
+                </div>
+
+                <h3>A. MA TRẬN ĐỀ KIỂM TRA</h3>
+                <div class="tbl-wrap">
+                  <table class="mx">
+                    <thead><tr><th>Mức độ</th><th>Dạng câu hỏi</th><th>Số câu</th><th>Điểm</th><th>Tỉ lệ</th></tr></thead>
+                    <tbody>
+                      <sc-for list="{{matrix}}" as="m" hint-placeholder-count="4">
+                        <tr><td>{{m.level}}</td><td>{{m.type}}</td><td>{{m.n}}</td><td>{{m.pts}}</td><td>{{m.pct}}</td></tr>
+                      </sc-for>
+                      <tr><th>Tổng</th><th>—</th><th>6</th><th>10,0</th><th>100%</th></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <h3>B. ĐỀ BÀI</h3>
+                <h5>Phần I. Trắc nghiệm (4,0 điểm — mỗi câu 1,0 điểm)</h5>
+                <sc-for list="{{mcq}}" as="q" hint-placeholder-count="2">
+                  <div class="q">
+                    <div class="q-head"><span class="q-no">{{q.label}}</span><span class="lv {{q.lvCls}}">{{q.lvName}}</span></div>
+                    <div>{{q.text}}</div>
+                    <div class="opts">
+                      <sc-for list="{{q.opts}}" as="o" hint-placeholder-count="4">
+                        <div class="opt {{o.cls}}"><strong>{{o.k}}</strong><span>{{o.t}}</span></div>
+                      </sc-for>
+                    </div>
+                    <sc-if value="{{showAnswers}}" hint-placeholder-val="{{ false }}"><div class="key"><strong>Đáp án:</strong> <span>{{q.ans}}</span></div></sc-if>
+                  </div>
+                </sc-for>
+                <h5>Phần II. Tự luận (6,0 điểm)</h5>
+                <sc-for list="{{essay}}" as="e" hint-placeholder-count="2">
+                  <div class="q">
+                    <div class="q-head"><span class="q-no">{{e.label}}</span><span class="lv {{e.lvCls}}">{{e.lvName}}</span></div>
+                    <div>{{e.text}}</div>
+                    <sc-if value="{{showAnswers}}" hint-placeholder-val="{{ false }}"><div class="key"><strong>Hướng dẫn chấm:</strong> <span>{{e.ans}}</span></div></sc-if>
+                  </div>
+                </sc-for>
+              </article>
+            </sc-if>
+
+            <!-- Appendix from AI chat -->
+            <sc-if value="{{hasAppendix}}" hint-placeholder-val="{{ false }}">
+              <section class="paper" style="margin-top:16px">
+                <h3 style="margin-top:0">Phụ lục · Câu hỏi phân hóa (từ Trợ lý AI)</h3>
+                <sc-for list="{{appendix}}" as="p" hint-placeholder-count="2">
+                  <div class="q">
+                    <div class="q-head"><span class="lv {{p.lvCls}}">{{p.level}}</span></div>
+                    <div>{{p.q}}</div>
+                    <div class="key"><strong>Đáp án:</strong> <span>{{p.a}}</span></div>
+                  </div>
+                </sc-for>
+              </section>
+            </sc-if>
+          </div>
+        </sc-if>
+      </div>
+    </main>
+
+    <!-- AI Assistant -->
+    <aside class="card noprint" style="flex:1 1 320px;max-width:360px;display:flex;flex-direction:column;overflow:hidden" aria-label="Trợ lý AI">
+      <div style="padding:14px 18px;background:#1E3A8A;color:#fff;display:flex;align-items:center;gap:10px">
+        <span style="width:34px;height:34px;border-radius:50%;background:#047857;display:grid;place-items:center;flex:none">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"></path></svg>
+        </span>
+        <div>
+          <div style="font-weight:700;font-size:15px">Trợ lý AI EduAI</div>
+          <div style="font-size:12px;color:#C7D2FE">Tối ưu nội dung · tạo câu hỏi phân hóa</div>
+        </div>
+      </div>
+      <div id="chatlog" style="height:380px;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:12px;background:#fff" aria-live="polite">
+        <sc-for list="{{chat}}" as="m" hint-placeholder-count="1">
+          <div class="msg {{m.cls}}">
+            <div>{{m.text}}</div>
+            <sc-if value="{{m.hasItems}}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+                <sc-for list="{{m.items}}" as="it" hint-placeholder-count="3">
+                  <div style="background:#fff;border:1px solid #D8DEEA;border-radius:8px;padding:8px 10px">
+                    <span class="lv {{it.lvCls}}">{{it.level}}</span>
+                    <div style="margin-top:4px">{{it.q}}</div>
+                  </div>
+                </sc-for>
+                <button class="btn btn-em" style="min-height:40px" onClick="{{m.insert}}" disabled="{{m.done}}">{{m.insertLabel}}</button>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+        <sc-if value="{{typing}}" hint-placeholder-val="{{ false }}">
+          <div class="msg msg-a"><span class="dots" aria-label="Trợ lý đang soạn"><span></span><span></span><span></span></span></div>
+        </sc-if>
+      </div>
+      <div style="padding:12px 16px 0;display:flex;flex-wrap:wrap;gap:8px;background:#fff">
+        <sc-for list="{{quick}}" as="c" hint-placeholder-count="4"><button type="button" class="chip" onClick="{{c.go}}">{{c.label}}</button></sc-for>
+      </div>
+      <form onSubmit="{{onChatSubmit}}" style="padding:12px 16px 16px;display:flex;gap:8px;background:#fff">
+        <label class="sr" for="chat-in">Nhập yêu cầu cho trợ lý AI</label>
+        <input id="chat-in" class="inp" type="text" placeholder="Nhờ AI chỉnh bài, tạo câu hỏi…" value="{{chatInput}}" onChange="{{onChatInput}}" style="flex:1 1 auto;min-width:0">
+        <button type="submit" class="btn btn-gold" style="padding:0 14px" aria-label="Gửi">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>
+        </button>
+      </form>
+    </aside>
+  </div>
+
+  <div class="toast {{toastCls}}" role="status" aria-live="polite">{{toast}}</div>
+</div>
+</x-dc>
+
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1060}}'>
+class Component extends DCLogic {
+  state = {
+    tab: 'lesson',
+    phase: 'empty',
+    loadStep: 0,
+    editing: false,
+    edited: false,
+    showAnswers: false,
+    invalid: false,
+    toast: '',
+    typing: false,
+    chatInput: '',
+    appendix: [],
+    doc: null,
+    form: { title: '', subject: 'Toán', grade: '6', periods: '2', ycc: '' },
+    chat: [{ id: 1, isUser: false, text: 'Xin chào! Mình là trợ lý EduAI. Hãy cho mình biết phần nào cần tối ưu, hoặc chọn một gợi ý bên dưới.' }]
+  };
+
+  componentWillUnmount() { clearTimeout(this._t1); clearTimeout(this._t2); }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.chat !== this.state.chat || prevState.typing !== this.state.typing) {
+      const el = document.getElementById('chatlog');
+      if (el) el.scrollTop = el.scrollHeight;
+    }
+  }
+
+  /* ---------- sample data ---------- */
+  sample() {
+    return {
+      title: 'Phép cộng và phép trừ phân số',
+      subject: 'Toán', grade: '6', periods: '2',
+      ycc: '- Thực hiện được phép cộng, phép trừ hai phân số khác mẫu.\n- Vận dụng được kiến thức để giải quyết bài toán thực tiễn đơn giản.'
+    };
+  }
+
+  acts() {
+    const steps = (a, b, c, d) => [
+      { k: 'Chuyển giao nhiệm vụ:', t: a },
+      { k: 'Thực hiện nhiệm vụ:', t: b },
+      { k: 'Báo cáo, thảo luận:', t: c },
+      { k: 'Kết luận, nhận định:', t: d }
+    ];
+    return [
+      { no: 1, name: 'Mở đầu / Khởi động', time: 10,
+        goal: 'Tạo hứng thú; giúp học sinh nhận ra cần cộng hai phân số có mẫu số khác nhau.',
+        content: 'Tình huống “Chia bánh pizza”: An ăn 1/4 chiếc bánh, Bình ăn 1/2 chiếc bánh. Hai bạn đã ăn tất cả mấy phần của chiếc bánh?',
+        product: 'Học sinh dự đoán kết quả và nêu được: cần tính 1/4 + 1/2 nhưng hai mẫu số khác nhau.',
+        steps: steps('GV chiếu tình huống, nêu câu hỏi.', 'HS suy nghĩ cá nhân 2 phút, trao đổi với bạn cùng bàn.', 'GV gọi 2–3 HS trình bày dự đoán.', 'GV ghi nhận và dẫn dắt vào bài: cần cách cộng phân số khác mẫu.') },
+      { no: 2, name: 'Hình thành kiến thức mới', time: 35,
+        goal: 'Phát biểu và áp dụng được quy tắc cộng, trừ phân số bằng cách quy đồng mẫu số.',
+        content: 'Quy đồng mẫu số hai phân số; quy tắc cộng, trừ phân số cùng mẫu và khác mẫu. Ví dụ: 1/4 + 1/2 = 1/4 + 2/4 = 3/4; 5/6 − 1/4 = 10/12 − 3/12 = 7/12.',
+        product: 'Quy tắc cộng, trừ phân số được ghi vào vở; lời giải hai ví dụ trình bày đúng.',
+        steps: steps('GV phát phiếu học tập số 1, yêu cầu nhóm 4 HS quy đồng 1/4 và 1/2.', 'Các nhóm làm phiếu, dùng bộ thẻ phân số kiểm tra; GV quan sát và hỗ trợ.', 'Đại diện nhóm trình bày; các nhóm nhận xét, bổ sung.', 'GV chốt quy tắc: quy đồng, cộng/trừ tử số, giữ nguyên mẫu số, rút gọn nếu có thể.') },
+      { no: 3, name: 'Luyện tập', time: 30,
+        goal: 'Củng cố kỹ năng cộng, trừ phân số; phân hóa theo ba mức độ.',
+        content: 'Bài 1: tính 2/3 + 1/6 và 7/8 − 3/4. Bài 2: tìm x biết x − 1/3 = 1/2. Bài 3 (nâng cao): so sánh 1/2 + 1/5 với 3/4.',
+        product: 'Phiếu học tập số 2 hoàn thành; kết quả: 5/6; 1/8; x = 5/6; 7/10 < 3/4.',
+        steps: steps('GV giao phiếu học tập số 2 theo ba mức: cơ bản, vận dụng, nâng cao.', 'HS làm cá nhân rồi đối chiếu trong nhóm; GV chấm nhanh vài bài.', 'Hai HS lên bảng chữa; cả lớp nhận xét cách trình bày.', 'GV nhấn mạnh lỗi thường gặp: cộng cả tử và mẫu.') },
+      { no: 4, name: 'Vận dụng', time: 15,
+        goal: 'Vận dụng phép cộng, trừ phân số vào tình huống đời sống.',
+        content: 'Mẹ dùng 1/2 kg đường làm bánh và 1/3 kg đường làm mứt. Mẹ đã dùng tất cả bao nhiêu ki-lô-gam đường?',
+        product: 'Lời giải: 1/2 + 1/3 = 3/6 + 2/6 = 5/6 (kg). Mỗi nhóm nêu thêm một tình huống tương tự.',
+        steps: steps('GV nêu bài toán thực tiễn và yêu cầu nhóm tự đặt thêm một tình huống.', 'HS giải bài toán, thiết kế tình huống mới trên bảng nhóm.', 'Các nhóm trình bày nhanh trong 1 phút mỗi nhóm.', 'GV tổng kết bài, giao nhiệm vụ về nhà.') }
+    ];
+  }
+
+  slides(d) {
+    return [
+      { no: 1, tag: 'Mở đầu', title: d.title, bullets: [d.subject + ' · Lớp ' + d.grade, 'Thời lượng: ' + d.periods + ' tiết'], note: 'Chào lớp, nêu mục tiêu tiết học trong một câu.' },
+      { no: 2, tag: 'Hoạt động 1', title: 'Tình huống: chia bánh pizza', bullets: ['An ăn 1/4 chiếc bánh', 'Bình ăn 1/2 chiếc bánh', 'Hai bạn ăn tất cả mấy phần?'], note: 'Gọi 2–3 HS dự đoán, ghi lại câu trả lời trước khi dẫn dắt vào bài.' },
+      { no: 3, tag: 'Hoạt động 2', title: 'Quy đồng mẫu số', bullets: ['Tìm mẫu số chung (BCNN)', 'Nhân cả tử và mẫu để hai mẫu bằng nhau', 'Ví dụ: 1/4 và 1/2 → 1/4 và 2/4'], note: 'Dùng bộ thẻ phân số để HS thấy 1/2 = 2/4.' },
+      { no: 4, tag: 'Hoạt động 2', title: 'Quy tắc cộng, trừ phân số', bullets: ['Cùng mẫu: cộng/trừ tử số, giữ nguyên mẫu', 'Khác mẫu: quy đồng rồi tính', 'Rút gọn kết quả nếu có thể'], note: 'Cho HS nhắc lại quy tắc bằng lời của mình trước khi ghi vở.' },
+      { no: 5, tag: 'Hoạt động 2', title: 'Ví dụ minh họa', bullets: ['1/4 + 1/2 = 1/4 + 2/4 = 3/4', '5/6 − 1/4 = 10/12 − 3/12 = 7/12'], note: 'Làm mẫu ví dụ 1, để HS tự làm ví dụ 2 rồi đối chiếu.' },
+      { no: 6, tag: 'Hoạt động 3', title: 'Luyện tập theo nhóm', bullets: ['Bài 1: 2/3 + 1/6', 'Bài 2: 7/8 − 3/4', 'Nhóm 4 HS, 8 phút, trình bày bảng nhóm'], note: 'Đáp án: 5/6 và 1/8. Lưu ý lỗi cộng tử với tử, mẫu với mẫu.' },
+      { no: 7, tag: 'Hoạt động 4', title: 'Vận dụng: đường làm bánh', bullets: ['Mẹ dùng 1/2 kg đường làm bánh', 'Mẹ dùng 1/3 kg đường làm mứt', 'Tổng lượng đường đã dùng?'], note: 'Đáp án: 5/6 kg. Yêu cầu mỗi nhóm đặt thêm một tình huống.' },
+      { no: 8, tag: 'Tổng kết', title: 'Ghi nhớ', bullets: ['Quy đồng → cộng/trừ tử số → rút gọn', 'Bài về nhà: phiếu học tập số 2'], note: 'Cho 2 HS tóm tắt bài học trong 20 giây.' }
+    ];
+  }
+
+  quiz() {
+    const L = { nb: ['lv-nb', 'Nhận biết'], th: ['lv-th', 'Thông hiểu'], vd: ['lv-vd', 'Vận dụng'], vdc: ['lv-vdc', 'Vận dụng cao'] };
+    const mc = (n, lv, text, opts, ok) => ({
+      label: 'Câu ' + n + '.', lvCls: L[lv][0], lvName: L[lv][1], text,
+      opts: opts.map((t, i) => ({ k: 'ABCD'[i] + '.', t, cls: 'ABCD'[i] === ok ? 'ok' : '', ok: 'ABCD'[i] === ok })),
+      ans: ok + ' — ' + opts['ABCD'.indexOf(ok)]
+    });
+    return {
+      matrix: [
+        { level: 'Nhận biết', type: 'Trắc nghiệm', n: 2, pts: '2,0', pct: '20%' },
+        { level: 'Thông hiểu', type: 'Trắc nghiệm', n: 2, pts: '2,0', pct: '20%' },
+        { level: 'Vận dụng', type: 'Tự luận', n: 1, pts: '3,5', pct: '35%' },
+        { level: 'Vận dụng cao', type: 'Tự luận', n: 1, pts: '2,5', pct: '25%' }
+      ],
+      mcq: [
+        mc(1, 'nb', 'Kết quả của phép tính 1/5 + 2/5 là:', ['3/10', '1/5', '3/5', '2/5'], 'C'),
+        mc(2, 'nb', 'Mẫu số chung nhỏ nhất khi quy đồng hai phân số 1/2 và 1/3 là:', ['6', '5', '12', '1'], 'A'),
+        mc(3, 'th', 'Kết quả của phép tính 3/4 − 1/6 là:', ['1/2', '2/10', '5/12', '7/12'], 'D'),
+        mc(4, 'th', 'Tìm x, biết x − 1/3 = 1/2:', ['2/5', '5/6', '1/6', '2/3'], 'B')
+      ],
+      essay: [
+        { label: 'Câu 5. (3,5 điểm)', lvCls: L.vd[0], lvName: L.vd[1],
+          text: 'Bạn An đọc một cuốn sách: ngày thứ nhất đọc 2/5 cuốn, ngày thứ hai đọc 1/4 cuốn. Sau hai ngày, An còn phải đọc bao nhiêu phần của cuốn sách?',
+          ans: 'Hai ngày đọc: 2/5 + 1/4 = 8/20 + 5/20 = 13/20. Còn lại: 1 − 13/20 = 7/20 (cuốn sách).' },
+        { label: 'Câu 6. (2,5 điểm)', lvCls: L.vdc[0], lvName: L.vdc[1],
+          text: 'Tính A = 1/(1·2) + 1/(2·3) + 1/(3·4) + … + 1/(9·10).',
+          ans: 'Viết 1/(n(n+1)) = 1/n − 1/(n+1). Khi đó A = (1 − 1/2) + (1/2 − 1/3) + … + (1/9 − 1/10) = 1 − 1/10 = 9/10.' }
+      ]
+    };
+  }
+
+  /* ---------- helpers ---------- */
+  flash(msg) {
+    clearTimeout(this._t2);
+    this.setState({ toast: msg });
+    this._t2 = setTimeout(() => this.setState({ toast: '' }), 3200);
+  }
+
+  copyText(text) {
+    const fallback = () => {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        const ok = document.execCommand('copy');
+        ta.remove();
+        return ok;
+      } catch (e) { return false; }
+    };
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text).then(() => true, () => fallback());
+      }
+    } catch (e) { /* fall through */ }
+    return Promise.resolve(fallback());
+  }
+
+  saveFile(name, mime, content) {
+    try {
+      const url = URL.createObjectURL(new Blob([content], { type: mime }));
+      const a = document.createElement('a');
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
+      return true;
+    } catch (e) { return false; }
+  }
+
+  markdown() {
+    const S = this.state, d = S.doc || S.form;
+    const ycc = this.yccList(d.ycc).map((y) => '- ' + y).join('\n');
+    if (S.tab === 'lesson') {
+      let md = '# KẾ HOẠCH BÀI DẠY\n\n**Tên bài:** ' + d.title + '\n**Môn:** ' + d.subject + ' – Lớp ' + d.grade + '\n**Thời lượng:** ' + d.periods + ' tiết\n\n## I. Mục tiêu\n### 1. Yêu cầu cần đạt\n' + ycc + '\n\n## II. Thiết bị dạy học và học liệu\n- GV: máy chiếu, slide, phiếu học tập, bộ thẻ phân số\n- HS: SGK, vở ghi, bút màu, bảng nhóm\n\n## III. Tiến trình dạy học\n';
+      this.acts().forEach((a) => {
+        md += '\n### Hoạt động ' + a.no + ': ' + a.name + ' (' + a.time + ' phút)\n- **a) Mục tiêu:** ' + a.goal + '\n- **b) Nội dung:** ' + a.content + '\n- **c) Sản phẩm:** ' + a.product + '\n- **d) Tổ chức thực hiện:**\n' + a.steps.map((s) => '  - ' + s.k + ' ' + s.t).join('\n') + '\n';
+      });
+      return md + this.appendixMd();
+    }
+    if (S.tab === 'slides') {
+      return '# ' + d.title + '\n\n' + this.slides(d).map((s) => '## Slide ' + s.no + ' · ' + s.title + ' (' + s.tag + ')\n' + s.bullets.map((b) => '- ' + b).join('\n') + '\n\n> Ghi chú GV: ' + s.note).join('\n\n') + '\n';
+    }
+    const q = this.quiz();
+    let md = '# ĐỀ KIỂM TRA\n\n**Bài:** ' + d.title + '\n**Môn:** ' + d.subject + ' – Lớp ' + d.grade + '\n\n## Ma trận\n| Mức độ | Dạng | Số câu | Điểm | Tỉ lệ |\n|---|---|---|---|---|\n' + q.matrix.map((m) => '| ' + [m.level, m.type, m.n, m.pts, m.pct].join(' | ') + ' |').join('\n') + '\n\n## Phần I. Trắc nghiệm\n';
+    q.mcq.forEach((m) => { md += '\n**' + m.label + '** (' + m.lvName + ') ' + m.text + '\n' + m.opts.map((o) => '- ' + o.k + ' ' + o.t).join('\n') + '\n'; });
+    md += '\n## Phần II. Tự luận\n';
+    q.essay.forEach((e) => { md += '\n**' + e.label + '** (' + e.lvName + ') ' + e.text + '\n'; });
+    md += '\n## Đáp án\n' + q.mcq.map((m) => m.label + ' ' + m.ans).join('\n') + '\n' + q.essay.map((e) => e.label + ' ' + e.ans).join('\n') + '\n';
+    return md + this.appendixMd();
+  }
+
+  appendixMd() {
+    const ap = this.state.appendix;
+    if (!ap.length) return '';
+    return '\n## Phụ lục: Câu hỏi phân hóa\n' + ap.map((p) => '- **' + p.level + ':** ' + p.q + ' — Đáp án: ' + p.a).join('\n') + '\n';
+  }
+
+  yccList(text) {
+    return String(text || '').split('\n').map((s) => s.replace(/^[\s\-•*]+/, '').trim()).filter(Boolean);
+  }
+
+  lvClass(level) {
+    return { 'Thông hiểu': 'lv-th', 'Vận dụng': 'lv-vd', 'Vận dụng cao': 'lv-vdc' }[level] || 'lv-nb';
+  }
+
+  reply(text) {
+    const t = text.toLowerCase();
+    if (/phân hóa|phân hoá|câu hỏi|thông hiểu|vận dụng/.test(t)) {
+      return {
+        text: 'Mình đã soạn 3 câu hỏi phân hóa cho bài này. Bạn có thể chèn vào phụ lục của bản soạn.',
+        items: [
+          { level: 'Thông hiểu', q: 'Quy đồng mẫu số rồi tính 5/6 − 1/4.', a: '7/12' },
+          { level: 'Vận dụng', q: 'Một thùng sơn: 1/2 thùng dùng cho tường, 1/5 thùng dùng cho trần. Còn lại bao nhiêu phần thùng?', a: '1 − (1/2 + 1/5) = 3/10 thùng' },
+          { level: 'Vận dụng cao', q: 'Tìm x biết x + 1/6 = 2/3 − 1/4.', a: 'x = 1/4' }
+        ]
+      };
+    }
+    if (/rút gọn|ngắn|giảm/.test(t)) {
+      return { text: 'Gợi ý rút gọn Hoạt động 2 (35 → 25 phút): gộp bước “Quy đồng” và “Quy tắc” thành một nhiệm vụ nhóm, dùng bộ thẻ phân số thay cho giảng giải, và chuyển Ví dụ 2 sang phần Luyện tập.' };
+    }
+    if (/trò chơi|khởi động|game/.test(t)) {
+      return { text: 'Trò chơi “Ghép thẻ phân số” (5 phút): mỗi nhóm nhận 8 thẻ và ghép các cặp phân số có tổng bằng 1. Nhóm ghép đúng và nhanh nhất thắng, đồng thời học sinh thấy ngay nhu cầu đưa về mẫu số chung.' };
+    }
+    if (/phiếu|học tập/.test(t)) {
+      return { text: 'Phiếu học tập số 1: (1) Quy đồng 1/4 và 1/2. (2) Hoàn thành 1/4 + 1/2 = … + … = … (3) Phát biểu quy tắc bằng lời của em. Phiếu số 2 chia ba mức: cơ bản (Bài 1), vận dụng (Bài 2), nâng cao (Bài 3).' };
+    }
+    return { text: 'Mình đã ghi nhận yêu cầu “' + text + '”. Bản demo chưa gọi mô hình thật, hãy thử các gợi ý bên dưới để xem trợ lý chỉnh bài như thế nào.' };
+  }
+
+  /* ---------- render ---------- */
+  renderVals() {
+    const S = this.state, tab = S.tab, d = S.doc || S.form;
+    const ready = S.phase === 'ready';
+    const q = this.quiz();
+    const tabNames = { lesson: 'Kế hoạch bài dạy', slides: 'Slide giảng dạy', quiz: 'Bài kiểm tra & Đáp án' };
+    const nouns = { lesson: 'kế hoạch bài dạy', slides: 'dàn ý slide', quiz: 'đề kiểm tra và đáp án' };
+    const status = { lesson: 'Đủ 4 hoạt động theo cấu trúc: Mở đầu · Hình thành kiến thức · Luyện tập · Vận dụng', slides: '8 slide bám theo 4 hoạt động, kèm ghi chú cho giáo viên', quiz: 'Ma trận 4 mức độ: Nhận biết · Thông hiểu · Vận dụng · Vận dụng cao' };
+    const appendixQs = S.appendix.map((p) => p.q);
+    const steps = ['Phân tích yêu cầu cần đạt', 'Thiết kế tiến trình / cấu trúc nội dung', 'Đối chiếu định hướng Công văn 7991', 'Hoàn thiện bản xem trước'];
+
+    const go = (t) => () => this.setState({ tab: t, editing: false, showAnswers: false });
+    const setForm = (k) => (e) => { const v = e.target.value; this.setState((s) => ({ form: { ...s.form, [k]: v }, invalid: k === 'title' ? false : s.invalid })); };
+    const send = (text) => {
+      const t = String(text || '').trim();
+      if (!t) return;
+      this.setState((s) => ({ chat: [...s.chat, { id: s.chat.length + 1, isUser: true, text: t }], chatInput: '', typing: true }));
+      clearTimeout(this._t1);
+      this._t1 = setTimeout(() => {
+        const r = this.reply(t);
+        this.setState((s) => ({ chat: [...s.chat, { id: s.chat.length + 1, isUser: false, ...r }], typing: false }));
+      }, 900);
+    };
+
+    const start = (useSample) => {
+      const form = useSample ? this.sample() : this.state.form;
+      if (!useSample && !form.title.trim()) {
+        this.setState({ invalid: true });
+        this.flash('Vui lòng nhập tên bài học hoặc bấm “Tạo bài mẫu”.');
+        return;
+      }
+      clearTimeout(this._t1);
+      const base = { form, doc: { ...form }, editing: false, edited: false, invalid: false, appendix: [], showAnswers: false };
+      if (useSample) {
+        this.setState({ ...base, phase: 'ready' });
+        this.flash('Đã tạo bài mẫu — sẵn sàng xem trước.');
+        return;
+      }
+      this.setState({ ...base, phase: 'loading', loadStep: 0 });
+      let i = 0;
+      const tick = () => {
+        i += 1;
+        if (i >= steps.length) { this.setState({ phase: 'ready', loadStep: steps.length }); this.flash('AI đã soạn xong. Bạn có thể sửa nội dung hoặc nhờ trợ lý tối ưu.'); return; }
+        this.setState({ loadStep: i });
+        this._t1 = setTimeout(tick, 750);
+      };
+      this._t1 = setTimeout(tick, 750);
+    };
+
+    const paperText = () => { const el = document.getElementById('paper'); return el ? el.innerText : ''; };
+
+    return {
+      isLesson: tab === 'lesson', isSlides: tab === 'slides', isQuiz: tab === 'quiz',
+      goLesson: go('lesson'), goSlides: go('slides'), goQuiz: go('quiz'),
+      isEmpty: S.phase === 'empty', isLoading: S.phase === 'loading', isReady: ready, notReady: !ready,
+      tabTitle: tabNames[tab], tabNoun: nouns[tab], statusText: ready ? status[tab] : 'Chưa có nội dung',
+      sideHint: 'Nhập thông tin bài học để AI soạn ' + nouns[tab] + '.',
+      form: S.form, doc: d,
+      subjects: ['Toán', 'Ngữ văn', 'Tiếng Anh', 'Khoa học tự nhiên', 'Lịch sử và Địa lí', 'Tin học', 'GDCD'],
+      grades: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+      titleBad: S.invalid ? 'bad' : '', errDisplay: S.invalid ? 'block' : 'none',
+      onTitle: setForm('title'), onSubject: setForm('subject'), onGrade: setForm('grade'), onPeriods: setForm('periods'), onYcc: setForm('ycc'),
+      suggestYcc: () => { this.setState((s) => ({ form: { ...s.form, ycc: this.sample().ycc } })); this.flash('Đã chèn gợi ý YCCĐ (mẫu Toán 6, CT GDPT 2018).'); },
+      onSubmit: (e) => { e.preventDefault(); start(false); },
+      useSample: () => start(true),
+
+      loadSteps: steps.map((label, i) => ({ label, done: i < S.loadStep, active: i === S.loadStep, todo: i > S.loadStep, cls: i < S.loadStep ? 'done' : i === S.loadStep ? 'on' : '' })),
+
+      editing: S.editing, editLabel: S.editing ? 'Hoàn tất sửa' : 'Sửa nội dung',
+      editable: S.editing ? 'true' : 'false', paperCls: S.editing ? 'editing' : '',
+      toggleEdit: () => {
+        if (S.editing) { this.setState({ editing: false, edited: true }); this.flash('Đã lưu chỉnh sửa trên bản xem trước.'); }
+        else { this.setState({ editing: true }); this.flash('Chế độ sửa: bấm vào văn bản để chỉnh trực tiếp.'); }
+      },
+      downloadLabel: tab === 'slides' ? 'Tải xuống .pptx' : 'Tải xuống .docx',
+      doPdf: () => {
+        this.flash('Mở hộp thoại in — chọn “Lưu dưới dạng PDF”.');
+        setTimeout(() => { try { window.print(); } catch (e) { /* blocked in preview */ } }, 300);
+      },
+      doCopy: () => {
+        const text = this.state.edited ? paperText() : this.markdown();
+        this.copyText(text).then((ok) => this.flash(ok ? 'Đã sao chép nội dung dạng Markdown.' : 'Trình duyệt chặn sao chép — hãy mở bản này trong cửa sổ đầy đủ.'));
+      },
+      doDownload: () => {
+        const name = (d.title || 'eduai').replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '').toLowerCase();
+        let ok;
+        if (tab === 'slides') {
+          ok = this.saveFile(name + '-slide.md', 'text/markdown;charset=utf-8', this.markdown());
+          this.flash(ok ? 'Bản demo: đã tải dàn ý slide (.md). Xuất .pptx thật cần kết nối API.' : 'Trình duyệt chặn tải xuống trong chế độ xem trước.');
+        } else {
+          const el = document.getElementById('paper');
+          const html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><title>' + d.title + '</title></head><body style="font-family:Times New Roman;font-size:13pt">' + (el ? el.innerHTML : '') + '</body></html>';
+          ok = this.saveFile(name + (tab === 'quiz' ? '-de-kiem-tra.doc' : '-giao-an.doc'), 'application/msword', html);
+          this.flash(ok ? 'Bản demo: đã tải tệp .doc mở được bằng Word. Xuất .docx chuẩn cần kết nối API.' : 'Trình duyệt chặn tải xuống trong chế độ xem trước.');
+        }
+      },
+
+      metaSubject: d.subject + ' – Lớp ' + d.grade, metaPeriods: 'Thời lượng: ' + d.periods + ' tiết',
+      yccList: this.yccList(d.ycc).length ? this.yccList(d.ycc) : ['[Chưa nhập yêu cầu cần đạt]'],
+      acts: this.acts().map((a) => ({ ...a, heading: 'Hoạt động ' + a.no + ': ' + a.name, timeText: a.time + ' phút' })),
+      slides: this.slides(d),
+      matrix: q.matrix, mcq: q.mcq, essay: q.essay,
+      showAnswers: S.showAnswers, answerLabel: S.showAnswers ? 'Ẩn đáp án' : 'Hiện đáp án',
+      toggleAnswers: () => this.setState((s) => ({ showAnswers: !s.showAnswers })),
+      mcq: q.mcq.map((m) => ({ ...m, opts: m.opts.map((o) => ({ ...o, cls: S.showAnswers && o.ok ? 'ok' : '' })) })),
+
+      hasAppendix: ready && tab !== 'slides' && S.appendix.length > 0,
+      appendix: S.appendix.map((p) => ({ ...p, lvCls: this.lvClass(p.level) })),
+
+      chat: S.chat.map((m) => {
+        const items = (m.items || []).map((it) => ({ ...it, lvCls: this.lvClass(it.level) }));
+        const done = items.length > 0 && items.every((it) => appendixQs.indexOf(it.q) >= 0);
+        return {
+          cls: m.isUser ? 'msg-u' : 'msg-a', text: m.text, hasItems: items.length > 0, items, done,
+          insertLabel: done ? 'Đã chèn vào bài' : 'Chèn vào bài',
+          insert: () => { this.setState((s) => ({ appendix: [...s.appendix, ...items.filter((it) => !s.appendix.some((p) => p.q === it.q))] })); this.flash(ready ? 'Đã chèn câu hỏi phân hóa vào phụ lục.' : 'Đã lưu; sẽ hiện trong phụ lục khi bạn tạo nội dung.'); }
+        };
+      }),
+      typing: S.typing,
+      quick: ['Tạo câu hỏi phân hóa', 'Rút gọn Hoạt động 2', 'Gợi ý trò chơi khởi động', 'Thiết kế phiếu học tập'].map((label) => ({ label, go: () => send(label) })),
+      chatInput: S.chatInput,
+      onChatInput: (e) => this.setState({ chatInput: e.target.value }),
+      onChatSubmit: (e) => { e.preventDefault(); send(this.state.chatInput); },
+
+      toast: S.toast, toastCls: S.toast ? '' : 'off'
+    };
+  }
+}
+</script>
+</body>
+</html>
